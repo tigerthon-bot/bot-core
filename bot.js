@@ -84,8 +84,8 @@ var pageurl="https://animalskinsandbones.com/"
 		 await page2.waitForTimeout(3000);
 		 var name = (link.replace("https://animalskinsandbones.com/product/"))
 		 name = name.replace("/","");
-		 console.log('Saving ' + name + '.png');
-		 await page2.screenshot({ path: name + '.png' });
+		 console.log('Saving ' + name + '.png');				// SOMETHING WRONG WITH FILENAME. IT ADDS undefined IN FRONT OF NAME
+		 await page2.screenshot({ path: name + '.png' });                       // THIS IS WHERE IT SHOULD UPLOAD THE IMAGE
 		 await page.waitForTimeout(2000);					// wait a couple of seconds just in case
 		 await page2.close 	 
 	  }	  
