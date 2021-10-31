@@ -2,7 +2,6 @@ const puppeteer = require('puppeteer');
 const querystring = require('querystring');
 const url = require('url');
 
-
 (async () => {
   const browser = await puppeteer.launch({ headless: false }); // default is true
   const page = await browser.newPage();
@@ -25,7 +24,7 @@ const pageurl="https://animalskinsandbones.com/"
   await page.goto(pageurl);  
   await page.type('input[name=s]', term);
   await page.keyboard.press('\n');
-
+  pageurl = await page.url();
 
 // TODO: Manage no results found
   
@@ -42,42 +41,39 @@ const pageurl="https://animalskinsandbones.com/"
   let intMaxShowResults = eval(arrShowResults[1]);
   console.log("Showing " + intMinShowResults + " ... " + intMaxShowResults);
 
-  const ProductsPerPage = 15									// CONFIGURE Products per page. We find more than 15 links in each page although it counts 15 products. tbd
-
-  let StartResult = intMinShowResults
+  const ProductsPerPage = 15;									// CONFIGURE Products per page. We find more than 15 links in each page although it counts 15 products. tbd
+  var PageNumber = 1;
+  var OldPageNumber = 1;
+  
+  let StartResult = intMinShowResults;
   
   do {
 
-	// TODO reopen the link from page 1
-
-	// this works - select first result but no way of selecting remaining ones
-	/*
-	  elem = await page.waitForXPath("//span[contains(@class, 'woocommerce-loop-product__link')]");
-	  await elem.click();
-	  await page.waitForTimeout(3000);
-	*/
-
-	// doesn't work - find all results for iteration
-	/*  const selectors = await page.$$("product-title");
-	  console.log(selectors.length); // number of selectors found on this page
-	*/
-
-	// works: get all links in the page
+	  // deal with supplementary pages in search results
+	  if (StartResult = 1)
+		  pageurl=pageurl.replace("https://animalskinsandbones.com/","https://animalskinsandbones.com/page/1/");
+	  else {
+		 OldPageNumber = PageNumber++;
+         pageurl=pageurl.replace("/page/" + OldPageNumber + "/", "/page/" + PageNumber + "/") 
+	     await page1.goto();
+	  }
+  
+	  // works: get all links in the page
 	  const hrefs1 = await page.$$eval('a', as => as.map(a => a.href));
 	  const hrefs2  = hrefs1.filter(isProduct);				// filter only products
 	  const hrefs =  hrefs2.filter(function(elem, pos) {	// remove duplicates
-		return hrefs2.indexOf(elem) == pos;
-	})
+	  return hrefs2.indexOf(elem) == pos;
+	  })
 	  console.log(hrefs);
 
-	// iterate over the array of links 
+	  // iterate over the array of links 
 	  for (var link of hrefs)
 	  {
 		 const page2 = await browser.newPage();        // open new tab
 		 console.log("Opening " + link);
 		 await page2.goto(link);       				// open product page
 		 await page2.bringToFront();	  
-	// go PgDn and take a screenshot
+	  // go PgDn and take a screenshot
 		 await page2.keyboard.press('PageDown');
 		 await page2.waitForTimeout(3000);
 		 const name = (link.replace("https://animalskinsandbones.com/product/"))
@@ -91,6 +87,7 @@ const pageurl="https://animalskinsandbones.com/"
 	// let's see if there are other pages for this search
 	StartResult = StartResult + ProductsPerPage;
   } while (StartResult < intMaxResults);					// condition to open next search results page
+  
 	
   
   await browser.close();
