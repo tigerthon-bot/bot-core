@@ -18,13 +18,14 @@ const url = require('url');
   const pageurl = search_params.get("pageurl")
 */
 const term="sale";
-const pageurl="https://animalskinsandbones.com/"
+var pageurl="https://animalskinsandbones.com/"
 
 // open page and search for term
   await page.goto(pageurl);  
   await page.type('input[name=s]', term);
   await page.keyboard.press('\n');
-  pageurl = await page.url();
+  pageurl = await page.url();					// THIS IS NOT GIVING ME THE FULL URL INCLUDING SEARCH PARAMETERS
+  pageurl = "https://animalskinsandbones.com/?s=&post_type=product";		// CHEATING
 
 // TODO: Manage no results found
   
@@ -45,17 +46,23 @@ const pageurl="https://animalskinsandbones.com/"
   var PageNumber = 1;
   var OldPageNumber = 1;
   
-  let StartResult = intMinShowResults;
+  var StartResult = intMinShowResults;
   
   do {
 
+	console.log(StartResult);
 	  // deal with supplementary pages in search results
-	  if (StartResult = 1)
+	  if (StartResult == 1)
+	  {
 		  pageurl=pageurl.replace("https://animalskinsandbones.com/","https://animalskinsandbones.com/page/1/");
-	  else {
+		  console.log(pageurl);
+	  }
+	  else 
+	  {
 		 OldPageNumber = PageNumber++;
          pageurl=pageurl.replace("/page/" + OldPageNumber + "/", "/page/" + PageNumber + "/") 
-	     await page1.goto();
+	     await page.goto(pageurl);
+		 console.log(pageurl);
 	  }
   
 	  // works: get all links in the page
@@ -65,7 +72,7 @@ const pageurl="https://animalskinsandbones.com/"
 	  return hrefs2.indexOf(elem) == pos;
 	  })
 	  console.log(hrefs);
-
+/*
 	  // iterate over the array of links 
 	  for (var link of hrefs)
 	  {
@@ -76,16 +83,17 @@ const pageurl="https://animalskinsandbones.com/"
 	  // go PgDn and take a screenshot
 		 await page2.keyboard.press('PageDown');
 		 await page2.waitForTimeout(3000);
-		 const name = (link.replace("https://animalskinsandbones.com/product/"))
+		 var name = (link.replace("https://animalskinsandbones.com/product/"))
 		 name = name.replace("/","");
 		 console.log('Saving ' + name + '.png');
 		 await page2.screenshot({ path: name + '.png' });
 		 await page.waitForTimeout(2000);					// wait a couple of seconds just in case
 		 await page2.close 	 
 	  }
-	  
+*/	  
 	// let's see if there are other pages for this search
 	StartResult = StartResult + ProductsPerPage;
+	console.log("StartResult" + StartResult)
   } while (StartResult < intMaxResults);					// condition to open next search results page
   
 	
