@@ -93,7 +93,14 @@ var pageurl="https://animalskinsandbones.com/"
 		 await page2.bringToFront();	  
 	  // go PgDn and take a screenshot
 		 await page2.keyboard.press('PageDown');
-		 await page2.waitForTimeout(3000);
+		 await page2.keyboard.press('PageDown');
+		 await page2.keyboard.press('ArrowDown'); 
+		 await page2.keyboard.press('ArrowDown'); 
+		 await page2.keyboard.press('ArrowDown'); 
+		 await page2.keyboard.press('ArrowDown'); 
+		 await page2.keyboard.press('ArrowDown');
+		 await page2.waitForTimeout(5000);
+
 		 var name = (link.replace("https://animalskinsandbones.com/product/"))
 		 name = name.replace("/","");
 		 console.log('Saving ' + name + '.png');			// TODO: SOMETHING WRONG WITH FILENAME. IT ADDS undefined IN FRONT OF NAME
