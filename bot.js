@@ -72,7 +72,6 @@ var pageurl="https://animalskinsandbones.com/"
 	  return hrefs2.indexOf(elem) == pos;
 	  })
 	  console.log(hrefs);
-/*
 	  // iterate over the array of links 
 	  for (var link of hrefs)
 	  {
@@ -89,8 +88,7 @@ var pageurl="https://animalskinsandbones.com/"
 		 await page2.screenshot({ path: name + '.png' });
 		 await page.waitForTimeout(2000);					// wait a couple of seconds just in case
 		 await page2.close 	 
-	  }
-*/	  
+	  }	  
 	// let's see if there are other pages for this search
 	StartResult = StartResult + ProductsPerPage;
 	console.log("StartResult" + StartResult)
