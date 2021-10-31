@@ -9,13 +9,13 @@ const s3 = new aws.S3({
   endpoint: spacesEndpoint,
 });
 
-const uploadFile = (fileToUpload) => {
+const uploadFile = (bucketName, fileToUpload) => {
   return new Promise((resolve, reject) => {
     const fileName = uuid.v4();
 
     s3.upload(
       {
-        Bucket: 'tigerthon-dev',
+        Bucket: bucketName,
         ACL: 'public-read',
         Key: `tigerthon/${fileName}.png`,
         UploadId: fileName,

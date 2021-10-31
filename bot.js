@@ -3,8 +3,8 @@ const puppeteer = require('puppeteer');
 const job = require('./job');
 const uploadFile = require('./uploadFile');
 
-const cron = new CronJob('*/15 * * * * *', async () => {
-  await job();
-});
+// const cron = new CronJob('0 0 1 * * *', async () => {
+job();
+// });
 
-cron.start();
+// cron.start();
