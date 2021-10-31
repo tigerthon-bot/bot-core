@@ -1,11 +1,10 @@
+const { CronJob } = require('cron');
 const puppeteer = require('puppeteer');
+const job = require('./job');
+const uploadFile = require('./uploadFile');
 
-(async () => {
-  const browser = await puppeteer.launch({ headless: false });
-  const page = await browser.newPage();
-  await page.goto('https://google.com');
+const cron = new CronJob('*/15 * * * * *', async () => {
+  await job();
+});
 
-  await page.screenshot({ path: 'example.png' });
-
-  await browser.close();
-})();
+cron.start();

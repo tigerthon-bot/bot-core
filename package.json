@@ -4,12 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon bot.js",
     "start": "node bot.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "puppeteer": "^10.4.0"
+    "aws-sdk": "^2.1018.0",
+    "axios": "^0.24.0",
+    "cron": "^1.8.2",
+    "dotenv": "^10.0.0",
+    "puppeteer": "^10.4.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
   }
 }
